@@ -56,6 +56,22 @@
 			<organizationUrl>http://www.cloudfirst.dev</organizationUrl>
 		</developer>
 	</developers>
+	
+	<distributionManagement>
+		<repository>
+			<uniqueVersion>false</uniqueVersion>
+			<id>nexus-nexus.apps.okd.idsysapps.com</id>
+			<url>http://nexus.nexus.svc.cluster.local:8081/repository/cloudfirst-release</url>
+			<layout>default</layout>
+		</repository>
+		<snapshotRepository>
+			<uniqueVersion>true</uniqueVersion>
+			<id>nexus-nexus.apps.okd.idsysapps.com</id>
+			<name>Propellors Snapshots</name>
+			<url>http://nexus.nexus.svc.cluster.local:8081/repository/cloudfirst-snapshot</url>
+			<layout>legacy</layout>
+		</snapshotRepository>
+	</distributionManagement>
 
 	<dependencyManagement>
 		<dependencies>
