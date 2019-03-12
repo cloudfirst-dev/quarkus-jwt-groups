@@ -5,12 +5,12 @@ podTemplate(
   containers: [
     containerTemplate(
       name: "jnlp",
-      image: "quay.io/cloudfirst/jenkins-agent-maven-35-centos7:latest",
+      image: "docker-registry.default.svc:5000/jenkins/jenkins-agent-maven:latest",
     )
   ],
   volumes: [
     secretVolume(
-      mountPath: "/home/jenkins/.m2",
+      mountPath: "/home/jenkins/mvn-settings",
       secretName: "maven"
     )
   ]
@@ -18,7 +18,7 @@ podTemplate(
 	node('maven-pod') {
 	  // Define Maven Command to point to the correct
 	  // settings for our Nexus installation
-	  def mvnCmd = "mvn"
+	  def mvnCmd = "mvn -Dsettings.security=/home/jenkins/mvn-settings/settings-security.xml -s /home/jenkins/mvn-settings/settings.xml"
 	  def pom
 	
 	  // Checkout Source Code.
