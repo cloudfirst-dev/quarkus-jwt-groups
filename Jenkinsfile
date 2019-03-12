@@ -12,6 +12,7 @@ podTemplate(
     secretVolume(
       mountPath: "/home/jenkins/.m2",
       secretName: "maven"
+    )
   ]
 ) {
 	node('maven-pod') {
