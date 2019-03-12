@@ -1,13 +1,11 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>dev.cloudfirst.quarkus.auth</groupId>
 	<artifactId>quarkus-jwt-groups-parent</artifactId>
 	<name>custom-jwt-groups-parent</name>
 	<description>Provides a way to inject custom groups into the authentication identity</description>
 	<url>https://github.com/cloudfirst-dev/quarkus-jwt-groups</url>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<packaging>pom</packaging>
 
 	<parent>
@@ -28,7 +26,8 @@
 		<url>https://github.com/cloudfirst-dev/quarkus-jwt-groups</url>
 		<connection>scm:git:git@github.com:cloudfirst-dev/quarkus-jwt-groups.git</connection>
 		<developerConnection>scm:git:git@github.com:cloudfirst-dev/quarkus-jwt-groups.git</developerConnection>
-	</scm>
+	  <tag>v1.0.0</tag>
+  </scm>
 
 	<ciManagement>
 		<system>jenkins</system>
@@ -268,7 +267,7 @@
 												</goals>
 											</pluginExecutionFilter>
 											<action>
-												<ignore></ignore>
+												<ignore />
 											</action>
 										</pluginExecution>
 										<pluginExecution>
@@ -287,7 +286,7 @@
 												</goals>
 											</pluginExecutionFilter>
 											<action>
-												<ignore></ignore>
+												<ignore />
 											</action>
 										</pluginExecution>
 										<pluginExecution>
@@ -306,7 +305,7 @@
 												</goals>
 											</pluginExecutionFilter>
 											<action>
-												<ignore></ignore>
+												<ignore />
 											</action>
 										</pluginExecution>
 										<pluginExecution>
@@ -325,7 +324,7 @@
 												</goals>
 											</pluginExecutionFilter>
 											<action>
-												<ignore></ignore>
+												<ignore />
 											</action>
 										</pluginExecution>
 										<pluginExecution>
@@ -342,7 +341,7 @@
 												</goals>
 											</pluginExecutionFilter>
 											<action>
-												<ignore></ignore>
+												<ignore />
 											</action>
 										</pluginExecution>
 									</pluginExecutions>
