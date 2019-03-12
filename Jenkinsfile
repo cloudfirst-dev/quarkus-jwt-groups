@@ -1,19 +1,23 @@
-#!groovy
 node('maven') {
   // Define Maven Command to point to the correct
   // settings for our Nexus installation
   def mvnCmd = "mvn"
+  def pom
 
   // Checkout Source Code.
   stage('Checkout Source') {
     checkout scm
+  }
+  
+  stage('Get project version') {
+    pom = readMavenPom file: 'pom.xml'
   }
 	
 
   // Using Maven build the jar files
   // Do not run tests in this step
   stage('Build jar') {
-    echo "Building version ${project.version}"
+    echo "Building version ${pom.version}"
     sh "${mvnCmd} clean package -DskipTests"
   }
 
