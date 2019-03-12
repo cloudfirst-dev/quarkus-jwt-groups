@@ -363,6 +363,9 @@
 						<version>2.5.3</version>
 						<configuration>
 							<releaseProfiles>release</releaseProfiles>
+							<configuration>
+					          <tagNameFormat>v@{project.version}</tagNameFormat>
+					        </configuration>
 						</configuration>
 					</plugin>
 				</plugins>
