@@ -5,7 +5,7 @@
 	<name>custom-jwt-groups-parent</name>
 	<description>Provides a way to inject custom groups into the authentication identity</description>
 	<url>https://github.com/cloudfirst-dev/quarkus-jwt-groups</url>
-	<version>1.0.0</version>
+	<version>1.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<parent>
@@ -26,7 +26,7 @@
 		<url>https://github.com/cloudfirst-dev/quarkus-jwt-groups</url>
 		<connection>scm:git:git@github.com:cloudfirst-dev/quarkus-jwt-groups.git</connection>
 		<developerConnection>scm:git:git@github.com:cloudfirst-dev/quarkus-jwt-groups.git</developerConnection>
-	  <tag>v1.0.0</tag>
+	  <tag>HEAD</tag>
   </scm>
 
 	<ciManagement>
