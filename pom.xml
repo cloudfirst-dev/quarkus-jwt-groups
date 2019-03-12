@@ -363,10 +363,8 @@
 						<version>2.5.3</version>
 						<configuration>
 							<releaseProfiles>release</releaseProfiles>
-							<configuration>
-					          <tagNameFormat>v@{project.version}</tagNameFormat>
-					          <autoVersionSubmodules>true</autoVersionSubmodules>
-					        </configuration>
+							<tagNameFormat>v@{project.version}</tagNameFormat>
+							<autoVersionSubmodules>true</autoVersionSubmodules>
 						</configuration>
 					</plugin>
 				</plugins>
