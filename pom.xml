@@ -1,0 +1,402 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>dev.cloudfirst.quarkus.auth</groupId>
+	<artifactId>quarkus-jwt-groups-parent</artifactId>
+	<name>custom-jwt-groups-parent</name>
+	<description>Provides a way to inject custom groups into the authentication identity</description>
+	<url>https://github.com/cloudfirst-dev/quarkus-jwt-groups</url>
+	<version>1.0.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<parent>
+		<groupId>org.jboss</groupId>
+		<artifactId>jboss-parent</artifactId>
+		<version>32</version>
+	</parent>
+
+	<licenses>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
+	<scm>
+		<url>https://github.com/cloudfirst-dev/quarkus-jwt-groups</url>
+		<connection>scm:git:git@github.com:cloudfirst-dev/quarkus-jwt-groups.git</connection>
+		<developerConnection>scm:git:git@github.com:cloudfirst-dev/quarkus-jwt-groups.git</developerConnection>
+	</scm>
+
+	<ciManagement>
+		<system>jenkins</system>
+		<url>https://jenkins-jenkins.apps.okd.idsysapps.com</url>
+	</ciManagement>
+
+	<modules>
+		<module>deployment</module>
+		<module>runtime</module>
+	</modules>
+
+
+
+	<properties>
+		<quarkus.version>0.11.0</quarkus.version>
+		<m2e.apt.activation>jdt_apt</m2e.apt.activation>
+	</properties>
+
+	<developers>
+		<developer>
+			<name>Joshua Mathianas</name>
+			<email>mathianasj@cloudfirst.dev</email>
+			<url>http://www.cloudfirst.dev</url>
+			<organization>CloudFirst Dev</organization>
+			<organizationUrl>http://www.cloudfirst.dev</organizationUrl>
+		</developer>
+	</developers>
+
+	<dependencyManagement>
+		<dependencies>
+			<!-- Quarkus BOM -->
+
+			<dependency>
+				<groupId>io.quarkus</groupId>
+				<artifactId>quarkus-bom</artifactId>
+				<version>${quarkus.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<configuration>
+						<systemProperties>
+							<java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
+						</systemProperties>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>io.quarkus</groupId>
+					<artifactId>quarkus-maven-plugin</artifactId>
+					<version>${quarkus.version}</version>
+					<configuration>
+						<!-- Disable PrintAnalysisCallTree reports for native image building 
+							by default -->
+						<disableReports>true</disableReports>
+					</configuration>
+				</plugin>
+				<plugin>
+					<artifactId>maven-dependency-plugin</artifactId>
+					<executions>
+						<execution>
+							<goals>
+								<goal>resolve</goal>
+							</goals>
+							<phase>compile</phase>
+							<configuration>
+								<silent>true</silent>
+								<outputFile>${project.build.outputDirectory}/dependencies.runtime</outputFile>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-enforcer-plugin</artifactId>
+					<executions>
+						<execution>
+							<id>enforce</id>
+							<configuration>
+								<rules>
+									<dependencyConvergence />
+									<requireMavenVersion>
+										<version>3.5.3</version>
+									</requireMavenVersion>
+									<bannedDependencies>
+										<excludes>
+											<!-- Use javax.annotation-api -->
+											<exclude>org.jboss.spec.javax.annotation:jboss-annotations-api_1.2_spec</exclude>
+											<exclude>org.jboss.spec.javax.annotation:jboss-annotations-api_1.3_spec</exclude>
+											<!-- use our jboss-logmanager -->
+											<exclude>org.jboss.logging:jboss-logmanager</exclude>
+											<!-- We don't want all the API's in one jar -->
+											<exclude>javax:javaee-api</exclude>
+											<!-- Prevent incompatible config from coming in -->
+											<exclude>org.wildfly.client:wildfly-client-config</exclude>
+											<!-- Use Jakarta Activation -->
+											<exclude>javax.activation:javax-activation-api</exclude>
+											<exclude>javax.activation:activation</exclude>
+											<exclude>org.jboss.marshalling:jboss-marshalling-osgi</exclude>
+											<exclude>org.jboss.spec.javax.servlet:jboss-servlet-api_3.1_spec</exclude>
+											<!-- The API is packaged by the implementation -->
+											<exclude>javax.json:javax.json-api</exclude>
+										</excludes>
+									</bannedDependencies>
+								</rules>
+							</configuration>
+							<goals>
+								<goal>enforce</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+				<plugin>
+					<groupId>io.fabric8</groupId>
+					<artifactId>docker-maven-plugin</artifactId>
+					<version>0.28.0</version>
+				</plugin>
+				<plugin>
+					<artifactId>maven-javadoc-plugin</artifactId>
+					<configuration>
+						<quiet>true</quiet>
+						<doclint>none</doclint>
+						<show>package</show>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.jboss.jandex</groupId>
+					<artifactId>jandex-maven-plugin</artifactId>
+					<version>1.0.5</version>
+				</plugin>
+				<plugin>
+					<groupId>net.revelc.code.formatter</groupId>
+					<artifactId>formatter-maven-plugin</artifactId>
+					<version>2.8.1</version>
+					<configuration>
+						<configFile>${maven.multiModuleProjectDirectory}/ide-config/eclipse-format.xml</configFile>
+						<skip>${format.skip}</skip>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>net.revelc.code</groupId>
+					<artifactId>impsort-maven-plugin</artifactId>
+					<version>1.2.0</version>
+					<configuration>
+						<groups>java.,javax.,org.,com.</groups>
+						<staticGroups>*</staticGroups>
+						<skip>${format.skip}</skip>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+
+	<profiles>
+
+		<profile>
+			<id>validate</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+				<property>
+					<name>no-format</name>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>net.revelc.code</groupId>
+						<artifactId>impsort-maven-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>check-imports</id>
+								<goals>
+									<goal>check</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
+		<profile>
+			<id>release</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.sonatype.plugins</groupId>
+						<artifactId>nexus-staging-maven-plugin</artifactId>
+						<version>1.6.3</version>
+						<extensions>true</extensions>
+						<configuration>
+							<nexusUrl>https://oss.sonatype.org/</nexusUrl>
+							<serverId>ossrh</serverId>
+							<autoReleaseAfterClose>true</autoReleaseAfterClose>
+						</configuration>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-source-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>attach-sources</id>
+								<goals>
+									<goal>jar-no-fork</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-javadoc-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>attach-javadocs</id>
+								<goals>
+									<goal>jar</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<!-- ## IMPORTANT ## In your ~/.m2/settings.xml you need to add and 
+							edit the following profile: <profile> <id>release</id> <properties> <gpg.useagent>false</gpg.useagent> 
+							<gpg.executable>/usr/local/Cellar/gnupg@1.4/1.4.23_1/bin/gpg1</gpg.executable> 
+							<- use gpg1 on Mac OS X <gpg.homedir>~/.gnupg</gpg.homedir> <- Update to 
+							your own directory <gpg.passphrase>******</gpg.passphrase> <- Add your passphrase 
+							</properties> </profile> -->
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-gpg-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>sign-artifacts</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>eclipse</id>
+			<activation>
+				<property>
+					<!-- This is a trick to have the profile automatically activated by 
+						Eclipse -->
+					<name>m2e.version</name>
+				</property>
+			</activation>
+			<build>
+				<pluginManagement>
+					<plugins>
+						<!--This plugin's configuration is used to store Eclipse m2e settings 
+							only. It has no influence on the Maven build itself. -->
+						<plugin>
+							<groupId>org.eclipse.m2e</groupId>
+							<artifactId>lifecycle-mapping</artifactId>
+							<version>1.0.0</version>
+							<configuration>
+								<lifecycleMappingMetadata>
+									<pluginExecutions>
+										<pluginExecution>
+											<pluginExecutionFilter>
+												<groupId>io.fabric8</groupId>
+												<artifactId>
+													docker-maven-plugin
+												</artifactId>
+												<versionRange>
+													[0.26.1,)
+												</versionRange>
+												<goals>
+													<goal>start</goal>
+													<goal>stop</goal>
+												</goals>
+											</pluginExecutionFilter>
+											<action>
+												<ignore></ignore>
+											</action>
+										</pluginExecution>
+										<pluginExecution>
+											<pluginExecutionFilter>
+												<groupId>
+													org.apache.maven.plugins
+												</groupId>
+												<artifactId>
+													maven-antrun-plugin
+												</artifactId>
+												<versionRange>
+													[1.8,)
+												</versionRange>
+												<goals>
+													<goal>run</goal>
+												</goals>
+											</pluginExecutionFilter>
+											<action>
+												<ignore></ignore>
+											</action>
+										</pluginExecution>
+										<pluginExecution>
+											<pluginExecutionFilter>
+												<groupId>
+													org.apache.maven.plugins
+												</groupId>
+												<artifactId>
+													maven-dependency-plugin
+												</artifactId>
+												<versionRange>
+													[3.1.1,)
+												</versionRange>
+												<goals>
+													<goal>resolve</goal>
+												</goals>
+											</pluginExecutionFilter>
+											<action>
+												<ignore></ignore>
+											</action>
+										</pluginExecution>
+										<pluginExecution>
+											<pluginExecutionFilter>
+												<groupId>
+													org.jboss.jandex
+												</groupId>
+												<artifactId>
+													jandex-maven-plugin
+												</artifactId>
+												<versionRange>
+													[1.0.5,)
+												</versionRange>
+												<goals>
+													<goal>jandex</goal>
+												</goals>
+											</pluginExecutionFilter>
+											<action>
+												<ignore></ignore>
+											</action>
+										</pluginExecution>
+										<pluginExecution>
+											<pluginExecutionFilter>
+												<groupId>io.quarkus</groupId>
+												<artifactId>
+													quarkus-extension-plugin
+												</artifactId>
+												<versionRange>
+													[0.1.0,)
+												</versionRange>
+												<goals>
+													<goal>extension-list</goal>
+												</goals>
+											</pluginExecutionFilter>
+											<action>
+												<ignore></ignore>
+											</action>
+										</pluginExecution>
+									</pluginExecutions>
+								</lifecycleMappingMetadata>
+							</configuration>
+						</plugin>
+					</plugins>
+				</pluginManagement>
+			</build>
+		</profile>
+	</profiles>
+</project>
