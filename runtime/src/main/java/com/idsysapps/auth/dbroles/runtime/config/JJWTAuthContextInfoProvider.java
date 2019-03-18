@@ -60,6 +60,7 @@ public class JJWTAuthContextInfoProvider {
 
     if (mpJjwtLocation.isPresent() && !NONE.equals(mpJjwtLocation.get())) {
       // Need to decode what this is...
+      log.debugf("Attempting to read public key path: %s as RSA", mpJjwtLocation.get());
       try {
         String publicKeyPath = mpJjwtLocation.get();
         if (publicKeyPath.startsWith("classpath:")) {
@@ -73,6 +74,8 @@ public class JJWTAuthContextInfoProvider {
         contextInfo.setSignerKey(pk);
         log.debugf("mpJjwtPublicKey parsed as PEM");
       } catch (Exception e1) {
+        log.errorf("Error loading %s: %s", mpJjwtLocation.get(), e1);
+        e1.printStackTrace();
         throw new DeploymentException(e1);
       }
     }
