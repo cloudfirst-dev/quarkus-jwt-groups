@@ -35,7 +35,7 @@ podTemplate(
 	  // Do not run tests in this step
 	  stage('Build jar') {
 	    echo "Building version ${pom.version}"
-	    sh "${mvnCmd} clean package -DskipTests"
+	    sh "${mvnCmd} clean package install -DskipTests"
 	  }
 	
 	  // Using Maven run the unit tests
