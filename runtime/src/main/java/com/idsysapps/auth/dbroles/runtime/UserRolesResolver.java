@@ -6,34 +6,43 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 
-import org.jose4j.jwt.JwtClaims;
+import org.jboss.logging.Logger;
 import org.wildfly.security.authz.Attributes;
 
-import io.quarkus.smallrye.jwt.runtime.auth.ClaimAttributes;
-import io.quarkus.smallrye.jwt.runtime.auth.ElytronJwtCallerPrincipal;
-import io.quarkus.smallrye.jwt.runtime.auth.MpJwtValidator;
+import com.idsysapps.auth.dbroles.runtime.auth.ClaimAttributes;
+import com.idsysapps.auth.dbroles.runtime.auth.ElytronJwtCallerPrincipal;
+
+import io.jsonwebtoken.Claims;
 
 @ApplicationScoped
 public class UserRolesResolver {
+  private static Logger log = Logger.getLogger(JJWTTemplate.class);
+
   @Inject
   @UserRoleProvider
   Instance<UserRoles> checks;
 
   public Principal mpJwtLogic(Attributes claims) {
-    String pn = claims.getFirst("upn");
-    if (pn == null) {
-      pn = claims.getFirst("preferred_name");
+    log.debug("mapping claims to principal: " + claims);
+
+    if (!(claims instanceof ClaimAttributes)) {
+      throw new IllegalStateException("ElytronJwtCallerPrincipal requires Attributes to be a: "
+          + ClaimAttributes.class.getName());
     }
-    if (pn == null) {
-      pn = claims.getFirst("sub");
+
+    ElytronJwtCallerPrincipal jwtCallerPrincipal =
+        new ElytronJwtCallerPrincipal(ClaimAttributes.class.cast(claims));
+
+    if (checks.isResolvable()) {
+      log.debug("found a custom group mapping");
+      Claims currentClaims = ((ClaimAttributes) claims).getClaimsSet();
+
+      currentClaims.put("groups", checks.get().getRolesForUser(jwtCallerPrincipal.getName()));
+
+      claims = new ClaimAttributes(ClaimAttributes.class.cast(claims).getRawToken(),
+          ClaimAttributes.class.cast(claims).getTokenType(), currentClaims);
     }
 
-    JwtClaims currentClaims = ((ClaimAttributes) claims).getClaimsSet();
-    currentClaims.setClaim("groups", checks.get().getRolesForUser(pn));
-
-    ClaimAttributes newClaims = new ClaimAttributes(currentClaims);
-
-    ElytronJwtCallerPrincipal jwtCallerPrincipal = new ElytronJwtCallerPrincipal(pn, newClaims);
     return jwtCallerPrincipal;
   }
 }
