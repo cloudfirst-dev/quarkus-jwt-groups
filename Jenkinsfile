@@ -5,7 +5,7 @@ podTemplate(
   containers: [
     containerTemplate(
       name: "jnlp",
-      image: "docker-registry.default.svc:5000/jenkins/jenkins-agent-maven:latest",
+      image: "docker-registry.default.svc:5000/jenkins/jenkins-agent-graalvm:latest",
     )
   ],
   volumes: [
