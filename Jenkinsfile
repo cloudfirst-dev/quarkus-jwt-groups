@@ -43,6 +43,13 @@ podTemplate(
 	    echo "Running Unit Tests"
 	    sh "${mvnCmd} test"
 	  }
+	  
+	  // change directory and run integration tests
+	  stage('Integration Tests') {
+	  	dir('integration-tests') {
+	  		sh "${mvnCmd} clean verify -Pnative -DskipTests"
+	  	}
+	  }
 	
 	  // Using Maven to call SonarQube for Code Analysis
 	  //stage('Code Analysis') {
