@@ -23,7 +23,6 @@ public class SecuredResource {
   @RolesAllowed({"user_admin"})
   @Produces(MediaType.TEXT_PLAIN)
   public String helloRolesAllowed(@Context SecurityContext ctx) {
-    jwt.getGroups();
     Principal caller = ctx.getUserPrincipal();
     String name = caller == null ? "anonymous" : caller.getName();
     return name;
