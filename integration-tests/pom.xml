@@ -13,7 +13,6 @@
 
 	<properties>
 		<surefire-plugin.version>2.22.0</surefire-plugin.version>
-		<quarkus.version>0.11.0</quarkus.version>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.target>1.8</maven.compiler.target>
@@ -21,24 +20,16 @@
 		<maven.deploy.skip>true</maven.deploy.skip>
 	</properties>
 
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>io.quarkus</groupId>
-				<artifactId>quarkus-bom</artifactId>
-				<version>${quarkus.version}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
-
 	<dependencies>
 		<dependency>
 			<groupId>dev.cloudfirst.quarkus.auth</groupId>
 			<artifactId>quarkus-jjwt</artifactId>
 			<version>1.0.1-SNAPSHOT</version>
 			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.quarkus</groupId>
+			<artifactId>quarkus-elytron-security</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>io.quarkus</groupId>
@@ -117,6 +108,7 @@
 								</goals>
 								<configuration>
 									<enableHttpUrlHandler>true</enableHttpUrlHandler>
+									<additionalBuildArgs>--verbose</additionalBuildArgs>
 								</configuration>
 							</execution>
 						</executions>
