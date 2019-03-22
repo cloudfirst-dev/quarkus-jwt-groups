@@ -21,6 +21,19 @@
 			<distribution>repo</distribution>
 		</license>
 	</licenses>
+	
+	<repositories>
+        <repository>
+            <id>idsysapps</id>
+            <url>https://nexus-nexus.apps.okd.idsysapps.com/repository/maven-public/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
 
 	<scm>
 		<url>https://github.com/cloudfirst-dev/quarkus-jwt-groups</url>

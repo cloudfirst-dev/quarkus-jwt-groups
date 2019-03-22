@@ -18,6 +18,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<surefire.version>2.22.0</surefire.version>
+		<maven.deploy.skip>true</maven.deploy.skip>
 	</properties>
 
 	<dependencyManagement>
@@ -56,6 +57,20 @@
 	</dependencies>
 
 	<build>
+		<pluginManagement>
+         <plugins>
+           <plugin>
+             <groupId>org.apache.maven.plugins</groupId>
+             <artifactId>maven-install-plugin</artifactId>
+             <executions>
+               <execution>
+                 <id>default-install</id>
+                 <phase>none</phase>
+               </execution>
+             </executions>
+           </plugin>
+         </plugins>
+       </pluginManagement>
 		<plugins>
 			<plugin>
 				<artifactId>maven-surefire-plugin</artifactId>
