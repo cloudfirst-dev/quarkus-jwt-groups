@@ -5,7 +5,7 @@ podTemplate(
   containers: [
     containerTemplate(
       name: "jnlp",
-      image: "docker-registry.default.svc:5000/jenkins/jenkins-agent-graalvm:latest",
+      image: "docker-registry.default.svc:5000/ci/jenkins-agent-graalvm:latest",
       resourceRequestMemory: "1Gi",
       resourceLimitMemory: "1.5Gi",
       resourceRequestCpu: "100m",

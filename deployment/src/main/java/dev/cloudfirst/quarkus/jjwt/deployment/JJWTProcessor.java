@@ -30,10 +30,16 @@ import io.undertow.servlet.ServletExtension;
 class JJWTProcessor {
   @BuildStep
   void registerAdditionalBeans(BuildProducer<AdditionalBeanBuildItem> additionalBeans) {
-    additionalBeans.produce(new AdditionalBeanBuildItem(JJWTAuthContextInfoProvider.class));
-    additionalBeans.produce(new AdditionalBeanBuildItem(false, UserRolesResolver.class));
-    additionalBeans.produce(new AdditionalBeanBuildItem(false, JJWTValidator.class));
-    additionalBeans.produce(new AdditionalBeanBuildItem(PrincipalProducer.class));
+    AdditionalBeanBuildItem.Builder unremovable =
+        AdditionalBeanBuildItem.builder().setUnremovable();
+    unremovable.addBeanClass(UserRolesResolver.class);
+    unremovable.addBeanClass(JJWTValidator.class);
+    additionalBeans.produce(unremovable.build());
+
+    AdditionalBeanBuildItem.Builder removable = AdditionalBeanBuildItem.builder();
+    removable.addBeanClass(JJWTAuthContextInfoProvider.class);
+    removable.addBeanClass(PrincipalProducer.class);
+    additionalBeans.produce(removable.build());
 
   }
 

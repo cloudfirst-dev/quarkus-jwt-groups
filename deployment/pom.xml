@@ -8,7 +8,7 @@
 		<version>1.0.1-SNAPSHOT</version>
 		<relativePath>../</relativePath>
 	</parent>
-	<artifactId>quarkus-jjwt</artifactId>
+	<artifactId>quarkus-jjwt-deployment</artifactId>
 	<packaging>jar</packaging>
 
 	<licenses>
@@ -50,24 +50,28 @@
 	<dependencies>
 		<dependency>
 			<groupId>io.quarkus</groupId>
-			<artifactId>quarkus-core</artifactId>
+			<artifactId>quarkus-core-deployment</artifactId>
+			<version>${quarkus.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>io.quarkus</groupId>
-			<artifactId>quarkus-arc</artifactId>
+			<artifactId>quarkus-arc-deployment</artifactId>
+			<version>${quarkus.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>dev.cloudfirst.quarkus.auth</groupId>
-			<artifactId>quarkus-jjwt-runtime</artifactId>
+			<artifactId>quarkus-jjwt</artifactId>
 			<version>1.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>io.quarkus</groupId>
-			<artifactId>quarkus-agroal</artifactId>
+			<artifactId>quarkus-agroal-deployment</artifactId>
+			<version>${quarkus.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>io.quarkus</groupId>
-			<artifactId>quarkus-elytron-security</artifactId>
+			<artifactId>quarkus-elytron-security-deployment</artifactId>
+			<version>${quarkus.version}</version>
 		</dependency>
 
 		<dependency>
@@ -119,19 +123,20 @@
 
 	<build>
 		<plugins>
-			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<annotationProcessorPaths>
-						<path>
-							<groupId>io.quarkus</groupId>
-							<artifactId>quarkus-extension-processor</artifactId>
-							<version>${quarkus.version}</version>
-						</path>
-					</annotationProcessorPaths>
-				</configuration>
-			</plugin>
-		</plugins>
+	        <plugin>
+	            <groupId>org.apache.maven.plugins</groupId>
+	            <artifactId>maven-compiler-plugin</artifactId>
+	            <configuration>
+	                <annotationProcessorPaths>
+	                    <path>
+	                        <groupId>io.quarkus</groupId>
+	                        <artifactId>quarkus-extension-processor</artifactId>
+	                        <version>${quarkus.version}</version>
+	                    </path>
+	                </annotationProcessorPaths>
+	            </configuration>
+	        </plugin>
+	    </plugins>
 	</build>
 
 </project>
