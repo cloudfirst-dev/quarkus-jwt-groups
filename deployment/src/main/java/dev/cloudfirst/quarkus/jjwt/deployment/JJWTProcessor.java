@@ -34,11 +34,11 @@ class JJWTProcessor {
         AdditionalBeanBuildItem.builder().setUnremovable();
     unremovable.addBeanClass(UserRolesResolver.class);
     unremovable.addBeanClass(JJWTValidator.class);
+    unremovable.addBeanClass(PrincipalProducer.class);
     additionalBeans.produce(unremovable.build());
 
     AdditionalBeanBuildItem.Builder removable = AdditionalBeanBuildItem.builder();
     removable.addBeanClass(JJWTAuthContextInfoProvider.class);
-    removable.addBeanClass(PrincipalProducer.class);
     additionalBeans.produce(removable.build());
 
   }

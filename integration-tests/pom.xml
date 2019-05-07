@@ -23,12 +23,8 @@
 	<dependencies>
 		<dependency>
 			<groupId>dev.cloudfirst.quarkus.auth</groupId>
-			<artifactId>quarkus-jjwt-deployment</artifactId>
+			<artifactId>quarkus-jjwt</artifactId>
 			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>io.quarkus</groupId>
-			<artifactId>quarkus-elytron-security</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>io.quarkus</groupId>
@@ -44,6 +40,7 @@
 			<artifactId>rest-assured</artifactId>
 			<scope>test</scope>
 		</dependency>
+		
 	</dependencies>
 
 	<build>
@@ -112,8 +109,8 @@
 									<goal>native-image</goal>
 								</goals>
 								<configuration>
-									<enableHttpUrlHandler>true</enableHttpUrlHandler>
-									<additionalBuildArgs>--verbose</additionalBuildArgs>
+									<cleanupServer>true</cleanupServer>
+                                    <enableHttpUrlHandler>true</enableHttpUrlHandler>
 								</configuration>
 							</execution>
 						</executions>
