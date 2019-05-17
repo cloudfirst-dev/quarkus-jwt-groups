@@ -93,13 +93,13 @@
 	<distributionManagement>
 		<repository>
 			<uniqueVersion>false</uniqueVersion>
-			<id>nexus-nexus.apps.okd.idsysapps.com</id>
+			<id>nexus-ci.apps.idsysapps.com</id>
 			<url>http://nexus:8081/repository/cloudfirst-release</url>
 			<layout>default</layout>
 		</repository>
 		<snapshotRepository>
 			<uniqueVersion>true</uniqueVersion>
-			<id>nexus-nexus.apps.okd.idsysapps.com</id>
+			<id>nexus-ci.apps.idsysapps.com</id>
 			<name>Propellors Snapshots</name>
 			<url>http://nexus:8081/repository/cloudfirst-snapshot</url>
 			<layout>legacy</layout>
