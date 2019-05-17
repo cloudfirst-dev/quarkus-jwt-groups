@@ -6,10 +6,10 @@ podTemplate(
     containerTemplate(
       name: "jnlp",
       image: "docker-registry.default.svc:5000/ci/jenkins-agent-graalvm:latest",
-      resourceRequestMemory: "1Gi",
-      resourceLimitMemory: "1.5Gi",
+      resourceRequestMemory: "4Gi",
+      resourceLimitMemory: "4Gi",
       resourceRequestCpu: "100m",
-      resourceLimitCpu: "800m"
+      resourceLimitCpu: "2"
     )
   ],
   volumes: [
@@ -58,7 +58,7 @@ podTemplate(
 	  // Using Maven to call SonarQube for Code Analysis
 	  stage('Code Analysis') {
 	    echo "Running Code Analysis"
-	    sh "${mvnCmd} sonar:sonar -Dsonar.host.url=https://http://sonarqube-sonar.apps.okd.idsysapps.com -Dsonar.projectName=${JOB_BASE_NAME}-${devTag}"
+	    sh "${mvnCmd} sonar:sonar -Dsonar.host.url=https://sonarqube-ci.apps.idsysapps.com -Dsonar.projectName=${JOB_BASE_NAME}-${devTag}"
 	  }
 	
 	  // Publish the built war file to Nexus
