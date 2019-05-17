@@ -51,7 +51,7 @@ podTemplate(
 	  // change directory and run integration tests
 	  stage('Integration Tests') {
 	  	dir('integration-tests') {
-	  		sh "${mvnCmd} verify -Pnative -DskipTests"
+	  		sh "${mvnCmd} verify -Pnative-image"
 	  	}
 	  }
 	
