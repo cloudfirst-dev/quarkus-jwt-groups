@@ -7,6 +7,12 @@
 	<url>https://github.com/cloudfirst-dev/quarkus-jwt-groups</url>
 	<version>1.0.1</version>
 	<packaging>pom</packaging>
+
+	<properties>
+		<m2e.apt.activation>jdt_apt</m2e.apt.activation>
+		<version.eclipse.microprofile.jwt>1.1.1</version.eclipse.microprofile.jwt>
+		<quarkus.version>0.21.1</quarkus.version>
+	</properties>
 	
 	<!-- <parent>
 		<groupId>dev.cloudfirst.quarkus</groupId>
@@ -16,7 +22,7 @@
 	<parent>
 		<groupId>io.quarkus</groupId>
     	<artifactId>quarkus-parent</artifactId>
-    	<version>0.15.0</version>
+    	<version>0.21.1</version>
 	</parent>
 	
 	<dependencyManagement>
@@ -71,14 +77,6 @@
 		<module>runtime</module>
 		<module>integration-tests</module>
 	</modules>
-
-
-
-	<properties>
-		<m2e.apt.activation>jdt_apt</m2e.apt.activation>
-		<version.eclipse.microprofile.jwt>1.1.1</version.eclipse.microprofile.jwt>
-		<quarkus.version>0.15.0</quarkus.version>
-	</properties>
 
 	<developers>
 		<developer>
