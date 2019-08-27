@@ -49,7 +49,7 @@
 	
 	<repositories>
         <repository>
-            <id>idsysapps</id>
+            <id>Nexus</id>
             <url>https://nexus.idsysapps.com/repository/maven-all-public/</url>
             <releases>
                 <enabled>true</enabled>
