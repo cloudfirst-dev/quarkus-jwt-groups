@@ -44,7 +44,7 @@
 	<repositories>
         <repository>
             <id>idsysapps</id>
-            <url>https://nexus-ci.apps.idsysapps.com/repository/maven-all-public/</url>
+            <url>https://nexus.idsysapps.com/repository/maven-all-public/</url>
             <releases>
                 <enabled>true</enabled>
             </releases>
@@ -63,7 +63,7 @@
 
 	<ciManagement>
 		<system>jenkins</system>
-		<url>https://jenkins-jenkins.apps.okd.idsysapps.com</url>
+		<url>https://jenkins.idsysapps.com</url>
 	</ciManagement>
 
 	<modules>
@@ -93,13 +93,13 @@
 	<distributionManagement>
 		<repository>
 			<uniqueVersion>false</uniqueVersion>
-			<id>nexus-ci.apps.idsysapps.com</id>
+			<id>nexus.idsysapps.com</id>
 			<url>http://nexus:8081/repository/cloudfirst-release</url>
 			<layout>default</layout>
 		</repository>
 		<snapshotRepository>
 			<uniqueVersion>true</uniqueVersion>
-			<id>nexus-ci.apps.idsysapps.com</id>
+			<id>nexus.idsysapps.com</id>
 			<name>Propellors Snapshots</name>
 			<url>http://nexus:8081/repository/cloudfirst-snapshot</url>
 			<layout>legacy</layout>
