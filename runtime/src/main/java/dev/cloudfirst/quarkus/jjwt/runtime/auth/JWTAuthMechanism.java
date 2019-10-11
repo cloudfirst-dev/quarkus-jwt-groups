@@ -1,8 +1,7 @@
 package dev.cloudfirst.quarkus.jjwt.runtime.auth;
 
-import static io.undertow.util.Headers.AUTHORIZATION;
-import static io.undertow.util.Headers.WWW_AUTHENTICATE;
-import static io.undertow.util.StatusCodes.UNAUTHORIZED;
+import static io.undertow.util.Headers.AUTHORIZATION_STRING;
+import static io.undertow.util.Headers.WWW_AUTHENTICATE_STRING;
 
 import java.util.List;
 import java.util.Locale;
@@ -37,7 +36,7 @@ public class JWTAuthMechanism implements AuthenticationMechanism {
   @Override
   public AuthenticationMechanismOutcome authenticate(HttpServerExchange exchange,
       SecurityContext securityContext) {
-    List<String> authHeaders = exchange.getRequestHeaders().get(AUTHORIZATION);
+    List<String> authHeaders = exchange.getRequestHeaders(AUTHORIZATION_STRING);
     if (authHeaders != null) {
       String bearerToken = null;
       for (String current : authHeaders) {
@@ -90,9 +89,9 @@ public class JWTAuthMechanism implements AuthenticationMechanism {
   @Override
   public ChallengeResult sendChallenge(HttpServerExchange exchange,
       SecurityContext securityContext) {
-    exchange.getResponseHeaders().add(WWW_AUTHENTICATE, "Bearer {token}");
+    exchange.addResponseHeader(WWW_AUTHENTICATE_STRING, "Bearer {token}");
     UndertowLogger.SECURITY_LOGGER.debugf("Sending Bearer {token} challenge for %s", exchange);
-    return new ChallengeResult(true, UNAUTHORIZED);
+    return new ChallengeResult(true, 401);
   }
 
   /**

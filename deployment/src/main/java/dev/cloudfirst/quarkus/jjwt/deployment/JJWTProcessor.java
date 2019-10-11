@@ -1,5 +1,6 @@
 package dev.cloudfirst.quarkus.jjwt.deployment;
 
+import org.jboss.logging.Logger;
 import org.wildfly.security.auth.server.SecurityRealm;
 
 import dev.cloudfirst.quarkus.jjwt.runtime.JJWTTemplate;
@@ -28,8 +29,11 @@ import io.undertow.security.idm.IdentityManager;
 import io.undertow.servlet.ServletExtension;
 
 class JJWTProcessor {
+  private static Logger log = Logger.getLogger(JJWTProcessor.class);
+
   @BuildStep
   void registerAdditionalBeans(BuildProducer<AdditionalBeanBuildItem> additionalBeans) {
+    log.debug("adding beans");
     AdditionalBeanBuildItem.Builder unremovable =
         AdditionalBeanBuildItem.builder().setUnremovable();
     unremovable.addBeanClass(UserRolesResolver.class);
@@ -45,6 +49,7 @@ class JJWTProcessor {
 
   @BuildStep
   FeatureBuildItem feature() {
+    log.debug("adding feature");
     return new FeatureBuildItem("jwt-groups");
   }
 
@@ -56,6 +61,7 @@ class JJWTProcessor {
       BuildProducer<ObjectSubstitutionBuildItem> objectSubstitution,
       BuildProducer<SecurityRealmBuildItem> securityRealm, BeanContainerBuildItem container,
       BuildProducer<ReflectiveClassBuildItem> reflectiveClasses) throws Exception {
+    log.debug("configure realm auth");
     // if (config.enabled) {
     // Have the runtime template create the TokenSecurityRealm and create the build item
     RuntimeValue<SecurityRealm> realm = template.createTokenRealm(container.getValue());
@@ -86,6 +92,7 @@ class JJWTProcessor {
   @Record(ExecutionTime.STATIC_INIT)
   void configureIdentityManager(JJWTTemplate template, SecurityDomainBuildItem securityDomain,
       BuildProducer<IdentityManagerBuildItem> identityManagerProducer) {
+    log.debug("configure identity manager");
     IdentityManager identityManager =
         template.createIdentityManager(securityDomain.getSecurityDomain());
     identityManagerProducer.produce(new IdentityManagerBuildItem(identityManager));
@@ -95,7 +102,7 @@ class JJWTProcessor {
   @Record(ExecutionTime.STATIC_INIT)
   ServletExtensionBuildItem registerJwtAuthExtension(JJWTTemplate template,
       BeanContainerBuildItem container) {
-    // logger.debugf("registerJwtAuthExtension");
+    log.debug("registerJwtAuthExtension");
     ServletExtension authExt = template.createAuthExtension("MP-JWT", container.getValue());
     ServletExtensionBuildItem sebi = new ServletExtensionBuildItem(authExt);
     return sebi;

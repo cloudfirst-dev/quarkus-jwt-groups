@@ -85,36 +85,26 @@
 	</dependencies>
 
 	<build>
-		<plugins>
-			<plugin>
-				<groupId>io.quarkus</groupId>
-				<artifactId>quarkus-bootstrap-maven-plugin</artifactId>
-				<version>${quarkus.version}</version>
-				<!-- Executions configuration can be inherited from quarkus-build-parent -->
-				<executions>
-					<execution>
-						<goals>
-							<goal>extension-descriptor</goal>
-						</goals>
-						<configuration>
-							<deployment>${project.groupId}:${project.artifactId}-deployment:${project.version}</deployment>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<annotationProcessorPaths>
-						<path>
-							<groupId>io.quarkus</groupId>
-							<artifactId>quarkus-extension-processor</artifactId>
-							<version>${quarkus.version}</version>
-						</path>
-					</annotationProcessorPaths>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
+			<plugins>
+				<plugin>
+					<groupId>io.quarkus</groupId>
+					<artifactId>quarkus-bootstrap-maven-plugin</artifactId>
+					<version>${quarkus.version}</version>
+					<executions>
+						<execution>
+							<goals>
+								<goal>extension-descriptor</goal>
+							</goals>
+							<configuration>
+								<deployment>${project.groupId}:${project.artifactId}-deployment:${project.version}</deployment>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>  
+			</plugins>        
+		</build>
+		<properties>
+			<maven.compiler.source>1.8</maven.compiler.source>
+			<maven.compiler.target>1.8</maven.compiler.target>
+		</properties>  
 </project>

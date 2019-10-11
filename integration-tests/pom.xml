@@ -67,6 +67,7 @@
 		<plugins>
 			<plugin>
 				<artifactId>maven-surefire-plugin</artifactId>
+				<version>${surefire.version}</version>
 				<configuration>
 					<systemProperties>
 						<java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
@@ -81,9 +82,6 @@
 						<goals>
 							<goal>build</goal>
 						</goals>
-						<configuration>
-							<uberJar>true</uberJar>
-						</configuration>
 					</execution>
 				</executions>
 			</plugin>

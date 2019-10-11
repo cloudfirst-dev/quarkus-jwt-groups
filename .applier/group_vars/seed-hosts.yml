@@ -1,0 +1,25 @@
+sb_application_name: quarkus-jwt-groups
+sb_build_namespace: quarkus-jwt-groups-build
+sb_sa_name: "tekton"
+sb_source_repository_url: "https://github.com/redhat-cop/container-pipelines.git"
+sb_source_repository_ref: master
+
+openshift_cluster_content:
+- object: projects
+  content:
+  - name: "create environments"
+    file: "{{ inventory_dir }}/../.openshift/projects/projects.yml"
+    action: create
+    tags:
+      - project
+- object: builds
+  content:
+  - name: "deploy build pipeline to dev"
+    template: "{{ inventory_dir }}/../.openshift/templates/build.yml"
+    params_from_vars:
+      APPLICATION_NAME: "{{ sb_application_name }}"
+      NAMESPACE: "{{ sb_build_namespace }}"
+      SOURCE_REPOSITORY_URL: "{{ sb_source_repository_url }}"
+      SOURCE_REPOSITORY_REF: "{{ sb_source_repository_ref }}"
+    tags:
+      - build
