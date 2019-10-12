@@ -40,7 +40,7 @@ objects:
 - apiVersion: tekton.dev/v1alpha1
   kind: Task
   metadata:
-    name: maven-build-binary-build
+    name: maven-build
     namespace: ${NAMESPACE}
   spec:
     inputs:
@@ -54,7 +54,25 @@ objects:
       command:
       - /usr/bin/mvn
       args:
-      - package                       
+      - clean
+      - package
+      - install
+      - -DskipTests
+    - name: unit-tests
+      image: maven:3.6.0-jdk-8-slim
+      workingDir: /workspace/source
+      command:
+      - /usr/bin/mvn
+      args:
+      - test
+    - name: native-integration-tests
+      image: oracle/graalvm-ce:19.2.0.1
+      workingDir: /workspace/source
+      command:
+      - /usr/bin/mvn
+      args:
+      - verify
+      - -Pnative-image
 - apiVersion: tekton.dev/v1alpha1
   kind: Pipeline
   metadata:
@@ -65,9 +83,9 @@ objects:
     - name: ${APPLICATION_NAME}-git
       type: git
     tasks:
-    - name: maven-build-binary-build
+    - name: maven-build
       taskRef: 
-        name: maven-build-binary-build
+        name: maven-build
       resources:
         inputs:
         - name: source
